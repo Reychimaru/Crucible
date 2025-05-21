@@ -1,0 +1,1 @@
+<i class="bi bi-feather"></i> utilizzare la piuma per op
