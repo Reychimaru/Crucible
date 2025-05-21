@@ -1,6 +1,12 @@
 <template>
 <article class="baseContainer flexcolumn">
     <section class="postHeader">
+        <div v-if="isRepost" class="flexrow-h-start repostInfo">
+            <p><i class="bi bi-repeat"></i> Reposted by </p>
+            <RouterLink :to="`/user/${ post.author.username }`">
+                <p class="username">@{{ post.author.username }}</p>
+            </RouterLink>
+        </div>
         <div class="flexrow-sb">
             <div class="flexrow">
                 <div class="flexrow">
@@ -135,11 +141,11 @@
             <h3>Post options</h3>
             <button @click="postOptions = false" class="buttonIcon closeButton"><i class="bi bi-x-circle"></i></button>
         </div>
-        <button class="buttonText">Edit post</button>
-        <button class="buttonText">Delete post</button>
-        <button class="buttonText">Follow @{{ post.author.username }}</button>
+        <button v-if="isAuthor" class="buttonText">Edit post</button>
+        <button v-if="isAuthor" class="buttonText">Delete post</button>
+        <button v-if="!isAuthor" class="buttonText">Follow @{{ post.author.username }}</button>
+        <button v-if="!isAuthor" class="buttonText">Report post</button>
         <button class="buttonText">Copy URL</button>
-        <button class="buttonText">Report post</button>
     </article>
     <div v-if="postOptions" class="overlay" @click="postOptions = false"></div>
 </article>
@@ -165,6 +171,8 @@ export default {
             isOpen: false,
             isCommentCreatorVisibile: false,
             postOptions: false,
+            isAuthor: false,
+            isRepost: false,
         };
     },
     computed: {
@@ -345,5 +353,16 @@ export default {
     background: rgba(0, 0, 0, 0.75);
     z-index: 9;
     pointer-events: auto;
+}
+
+.repostInfo {
+    width: 100%;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #171717;
+}
+
+.repostInfo>p {
+    margin-right: 0.25rem;
 }
 </style>
