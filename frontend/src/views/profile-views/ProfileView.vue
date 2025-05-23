@@ -27,7 +27,7 @@
                 <h3 class="bio">{{ bio }}</h3>
                 <p class="profileWebsite"><a :href="`http://${website}`">{{ website }}</a></p>
                 <p class="profileStats">
-                    <RouterLink to="/community/id/members">{{ followers }} Followers</RouterLink> | {{ following }} Following | {{ posts.length }} Posts
+                    <RouterLink to="/user/username/followers">{{ followers }} Followers | {{ following }} Following</RouterLink> | {{ posts.length }} Posts
                 </p>
             </div>
         </section>
@@ -38,10 +38,10 @@
         </nav>
     </article>
 
-    <ContentGrid v-if="isContentGrid" :posts="posts" />
+    <Contents v-if="isContentGrid" :posts="posts" />
 
     <ul v-if="!isContentGrid">
-        <li v-for="(post, index) in searchPosts()" :key="index">
+        <li v-for="(post, index) in posts" :key="index">
             <Post :post="post" />
         </li>
     </ul>
@@ -50,12 +50,12 @@
 
 <script>
 import Post from '@/components/post-components/Post.vue';
-import ContentGrid from '@/components/profile-components/ContentGrid.vue';
+import Contents from '@/components/profile-components/Contents.vue';
 
 export default {
     components: {
         Post,
-        ContentGrid
+        Contents
     },
     data() {
         return {
@@ -96,8 +96,8 @@ export default {
                     ],
                     description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     postedAt: '25 Marzo 2025 - 12:35',
-                    isMature: false,
-                    isSpoiler: true,
+                    isMature: true,
+                    isSpoiler: false,
                     isBookmarked: false,
                     tags: [{
                         name: 'tag1'
@@ -220,7 +220,7 @@ export default {
                     description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     postedAt: '25 Marzo 2025 - 12:35',
                     isMature: false,
-                    isSpoiler: true,
+                    isSpoiler: false,
                     isBookmarked: false,
                     tags: [{
                         name: 'tag1'

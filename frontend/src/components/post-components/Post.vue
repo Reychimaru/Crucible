@@ -90,7 +90,22 @@
     </section>
 
     <section class="postFooter">
-        <div v-if="!isOpen" class="postDescription flexcolumn-start">
+
+        <div v-if="!isOpen && !post.isSpoiler && !post.isMature" class="postDescription flexcolumn-start">
+            <RouterLink :to="`/post/${ post.postId }`">
+                <p><span class="description">{{ post.description }}</span> <span class="more">show more</span></p>
+            </RouterLink>
+            <p class="postedAt">{{ post.postedAt }}</p>
+        </div>
+
+        <div v-if="!isOpen && post.isSpoiler" class="postDescription flexcolumn-start">
+            <RouterLink :to="`/post/${ post.postId }`">
+                <p><span class="spoilerDescription">{{ post.description }}</span> <span class="more">show more</span></p>
+            </RouterLink>
+            <p class="postedAt">{{ post.postedAt }}</p>
+        </div>
+
+        <div v-if="!isOpen && post.isMature" class="postDescription flexcolumn-start">
             <RouterLink :to="`/post/${ post.postId }`">
                 <p><span class="description">{{ post.description }}</span> <span class="more">show more</span></p>
             </RouterLink>
@@ -106,6 +121,7 @@
             </ul>
             <p class="postedAt" ref="commentCreator">{{ post.postedAt }}</p>
         </div>
+
     </section>
 
     <section v-if="isCommentCreatorVisibile" class="commentCreator">
@@ -182,20 +198,16 @@ export default {
     },
     watch: {
         route(newPath) {
-            this.isOpen = !(
-                newPath === '/feed' ||
-                newPath === '/bookmarks' ||
-                newPath.startsWith('/community/')
+            this.isOpen = (
+                newPath.startsWith('/post/')
             );
         },
 
     },
     created() {
         const path = this.$route.path;
-        this.isOpen = !(
-            path === '/feed' ||
-            path === '/bookmarks' ||
-            path.startsWith('/community/')
+        this.isOpen = (
+            path.startsWith('/post/')
         );
     },
     methods: {
@@ -318,6 +330,15 @@ export default {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.spoilerDescription {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    background-color: #171717;
+    color: #171717;
 }
 
 .more {

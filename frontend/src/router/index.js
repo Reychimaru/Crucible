@@ -20,6 +20,7 @@ import CommunityPostingView from '@/views/community-views/CommunityPostingView.v
 import CreateView from '@/views/community-views/CreateView.vue'
 
 import ProfileView from '../views/profile-views/ProfileView.vue'
+import Follower from '@/components/profile-components/Follower.vue'
 import PersonalizeView from '../views/profile-views/PersonalizeView.vue'
 
 import NotificationsView from '../views/main-views/NotificationsView.vue'
@@ -27,6 +28,7 @@ import NotificationsView from '../views/main-views/NotificationsView.vue'
 import MessagesView from '../views/main-views/MessagesView.vue'
 import ChatView from '../views/main-views/ChatView.vue'
 import PostView from '../views/feed-views/PostView.vue'
+import FollowersView from '@/views/profile-views/FollowersView.vue'
 
 
 
@@ -131,6 +133,11 @@ const router = createRouter({
       path: '/personalize',
       name: 'Personalize',
       component: PersonalizeView,
+    },
+        {
+      path: '/user/:username/followers',
+      name: 'Followers',
+      component: FollowersView,
     },
 
     /* ----- Notifications ----- */

@@ -1,43 +1,30 @@
 <template>
 <article class="basePadder">
     <section class="baseContainer">
-        <h3 class="panelName">{{ members.length }} Members</h3>
+        <h3 class="panelName">{{ followers.length }} Followers</h3>
         <input type="search" name="search" v-model="searchQuery" placeholder="Search a member" />
     </section>
 
-    <h3 class="panelName"><i class="bi bi-shield-shaded"></i> Moderators</h3>
+    <h3 class="panelName"><i class="bi bi-people"></i> Followers</h3>
     <ul>
-        <li v-for="(member, index) in moderators" :key="index">
-            <MemberBanner :member="member" />
+        <li v-for="follower in followers">
+            <Follower :follower="follower" />
         </li>
-        <div class="baseContainer flexrow" v-if="moderators.length == 0">
-            <p>No moderators found</p>
-        </div>
-    </ul>
-
-    <h3 class="panelName"><i class="bi bi-people"></i> Members</h3>
-    <ul>
-        <li v-for="(member, index) in normalMembers" :key="index">
-            <MemberBanner :member="member" />
-        </li>
-        <div class="baseContainer flexrow" v-if="normalMembers.length == 0">
-            <p>No members found</p>
-        </div>
     </ul>
 </article>
 </template>
 
 <script>
-import MemberBanner from '@/components/community-components/Member.vue';
+import Follower from '@/components/profile-components/Follower.vue';
 
 export default {
     components: {
-        MemberBanner
+        Follower
     },
     data() {
         return {
             searchQuery: '',
-            members: [{
+            followers: [{
                     nickname: "Digital Art Struggler",
                     username: "reychimaru",
                     avatar: "/public/asset/CommunityPic.jpg",
@@ -76,36 +63,7 @@ export default {
             ]
         };
     },
-    computed: {
-        filteredCommunities() {
-            const query = this.searchQuery.trim().toLowerCase();
-
-            // Se inizia con @, filtra solo per username
-            if (query.startsWith('@')) {
-                const usernameQuery = query.slice(1); // Rimuove la @
-                return this.members.filter(member =>
-                    member.username.toLowerCase().startsWith(usernameQuery)
-                );
-            }
-
-            // Altrimenti filtra per nickname o username
-            return this.members.filter(member =>
-                member.nickname.toLowerCase().includes(query) ||
-                member.username.toLowerCase().includes(query)
-            );
-        },
-        moderators() {
-            return this.filteredCommunities.filter(
-                member => member.isMember && (member.isMod || member.isAdmin)
-            );
-        },
-        normalMembers() {
-            return this.filteredCommunities.filter(
-                member => member.isMember && !member.isMod && !member.isAdmin
-            );
-        }
-    }
-};
+}
 </script>
 
 <style scoped>

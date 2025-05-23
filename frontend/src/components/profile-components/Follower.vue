@@ -5,36 +5,35 @@
 
             <div class="flexrow-sb">
                 <div class="flexrow-h-start">
-                    <img class="avatar" :src="member.avatar" alt="avatar" />
+                    <img class="avatar" :src="follower.avatar" alt="avatar" />
                     <div class="flexcolumn-h-start">
-                        <h2 class="communityName"><i v-if="member.isMod || member.isAdmin" class="bi bi-shield-shaded modBadge"></i> {{ member.nickname }}</h2>
-                        <h2 class="communityHandle">@{{ member.username }}</h2>
+                        <h2 class="communityName"><i v-if="follower.isMod || follower.isAdmin" class="bi bi-shield-shaded modBadge"></i> {{ follower.nickname }}</h2>
+                        <h2 class="communityHandle">@{{ follower.username }}</h2>
                     </div>
                 </div>
 
-                <button @click.prevent="memberMenu = true" v-if="member.isMember" class="buttonIcon flexcolumn"><i class="bi bi-three-dots-vertical"></i></button>
+                <button @click.prevent="memberMenu = true" v-if="follower.isMember" class="buttonIcon flexcolumn"><i class="bi bi-three-dots-vertical"></i></button>
 
             </div>
             <div class="flexcolumn-v-start">
                 <p class="memberStats">30 Posts | Joined 30/10/2025</p>
             </div>
-
         </article>
     </RouterLink>
 
     <article v-if="memberMenu" class="memberMenu baseContainer flexcolumn-h-start">
         <h3 class="panelName">Member menu</h3>
         <div class="flexrow-h-start">
-            <img class="avatar" :src="member.avatar" alt="avatar" />
+            <img class="avatar" :src="follower.avatar" alt="avatar" />
             <div class="flexcolumn-h-start">
-                <h2 class="communityName"><i v-if="member.isMod || member.isAdmin" class="bi bi-shield-shaded modBadge"></i> {{ member.nickname }}</h2>
-                <h2 class="communityHandle">@{{ member.username }}</h2>
+                <h2 class="communityName"><i v-if="follower.isMod || follower.isAdmin" class="bi bi-shield-shaded modBadge"></i> {{ follower.nickname }}</h2>
+                <h2 class="communityHandle">@{{ follower.username }}</h2>
             </div>
         </div>
         <div class="divider"></div>
-        <button class="buttonText" v-if="member.isMember && member.isMod && !member.isAdmin">Demote as Member</button>
-        <button class="buttonText" v-if="member.isMember && !member.isMod && !member.isAdmin">Promote as Mod</button>
-        <button class="buttonText" v-if="!member.isAdmin">Ban member</button>
+        <button class="buttonText" v-if="follower.isMember && follower.isMod && !follower.isAdmin">Demote as Member</button>
+        <button class="buttonText" v-if="follower.isMember && !follower.isMod && !follower.isAdmin">Promote as Mod</button>
+        <button class="buttonText" v-if="!follower.isAdmin">Ban member</button>
         <button class="buttonText">Report member</button>
         <button class="buttonText">Message member</button>
         <button @click="memberMenu = false" class="buttonText closeButton">Close</button>
@@ -54,7 +53,7 @@ export default {
         RouterLink,
     },
     props: {
-        member: {
+        follower: {
             type: Object,
             required: true
         },
