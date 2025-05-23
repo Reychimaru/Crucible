@@ -40,6 +40,9 @@
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-people"></i></button>
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-envelope-exclamation"></i></button>
 
+            <button class="buttonIcon" v-if="onFeedPosting"><i class="bi bi-info-circle"></i></button>
+
+
             <RouterLink to="/communities" v-if="onExplore"><button class="buttonIcon"><i class="bi bi-tags"></i></button></RouterLink>
 
             <RouterLink to="/communities/create" v-if="onCommunities"><button class="buttonIcon"><i class="bi bi-plus-circle"></i></button></RouterLink>

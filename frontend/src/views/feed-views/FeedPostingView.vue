@@ -9,15 +9,26 @@
             </label>
             <textarea class="titleInput" name="title" placeholder="Enter a title" maxlength="125" required @invalid="handleTitleError($event)"></textarea>
 
-            <!-- Bottone per aggiungere immagini se non ce ne sono -->
             <label for="media" class="flexrow-sb">
-                <span>Description</span>
-                <span class="inputError">Error</span>
+                <span>Media</span>
+                <span class="inputError">File not supported</span>
             </label>
-            <button name="media" type="button" v-if="content.length === 0" @click="uploadFile" class="buttonText mediaUploader flexcolumn">
-                <i class="bi bi-images"></i>
-                <span>Add images or videos</span>
-            </button>
+            <div name="media" class="mediaButtons flexrow">
+                <button type="button" v-if="videoPreview === null && content.length === 0" @click="uploadVideo" class="buttonText mediaUploader flexcolumn">
+                    <i class="bi bi-play-btn"></i>
+                    <span>Add a video</span>
+                </button>
+                <button type="button" v-if="content.length === 0 && videoPreview === null" @click="uploadFile" class="buttonText mediaUploader flexcolumn">
+                    <i class="bi bi-images"></i>
+                    <span>Add images</span>
+                </button>
+            </div>
+
+            <!-- Input file nascosto per video -->
+            <input type="file" accept="video/*" ref="uploadVideoInput" @change="previewVideo" style="display: none" />
+
+            <!-- Preview del video se presente -->
+            <video v-if="videoPreview" :src="videoPreview" controls class="videoPreview" loop />
 
             <!-- Carosello con immagini e bottone per aggiungere altre -->
             <CreateCarousel v-if="content.length > 0" :content="content" @discard="handleDiscard" @add-content="uploadFile" />
@@ -27,15 +38,15 @@
 
             <label for="description" class="flexrow-sb">
                 <span>Description</span>
-                <span class="inputError">Error</span>
+                <span class="inputError">No symbols allowed</span>
             </label>
             <textarea class="descriptionInput" name="description" placeholder="Write a post" maxlength="2500" required></textarea>
 
             <label for="spoiler" class="flexrow-sb">
                 <span>Spoilers subject</span>
-                <span class="inputError">Error</span>
+                <span class="inputError">No symbols allowed</span>
             </label>
-            <input name="spoiler" type="text" placeholder="A movie or a book title" />
+            <input name="spoiler" type="text" placeholder="Leave this empty if there are no spoilers" />
 
             <label for="tags" class="flexrow-sb">
                 <span>Add Tags</span>
@@ -70,6 +81,12 @@
             </div>
         </form>
     </article>
+
+    <article class="baseContainer">
+        <p></p>
+
+    </article>
+
 </div>
 </template>
 
@@ -84,13 +101,14 @@ export default {
         return {
             tags: [],
             content: [],
+            videoPreview: null,
+
             requiredTitle: false,
 
             titleError: false,
             mediaError: false,
             descriptionError: false,
             tagError: false,
-
 
             specialTags: [{
                 name: 'fortnite',
@@ -117,7 +135,7 @@ export default {
             const tagInput = this.$refs.inputTags;
             const tagValue = tagInput.value.trim().toLowerCase();
 
-            if (!/^[a-z0-9_&àèéìòù-]+$/.test(tagValue)) {
+            if (!/^[a-z0-9_àèéìòù-]+$/.test(tagValue)) {
                 this.tagError = true;
                 return;
             }
@@ -164,6 +182,24 @@ export default {
             // Reset per permettere di ricaricare gli stessi file
             this.$refs.uploadFile.value = '';
         },
+        uploadVideo() {
+            this.$refs.uploadVideoInput.click();
+        },
+        previewVideo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith("video/")) {
+                alert("Carica un file video valido.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.videoPreview = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
         markAsMature() {
             this.$refs.markAsMature.click();
         },
@@ -178,7 +214,7 @@ export default {
             // logica submit
         },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -302,5 +338,13 @@ input[type='file'] {
 
 .inputError {
     color: #e53935;
+}
+
+.videoPreview {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.25rem;
+    outline: 1px solid #171717;
+    background-color: #070707;
 }
 </style>
