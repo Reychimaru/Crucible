@@ -16,7 +16,7 @@
             <div name="media" class="mediaButtons flexrow">
                 <button type="button" v-if="videoPreview === null && content.length === 0" @click="uploadVideo" class="buttonText mediaUploader flexcolumn">
                     <i class="bi bi-play-btn"></i>
-                    <span>Add a video</span>
+                    <span>Add video</span>
                 </button>
                 <button type="button" v-if="content.length === 0 && videoPreview === null" @click="uploadFile" class="buttonText mediaUploader flexcolumn">
                     <i class="bi bi-images"></i>
