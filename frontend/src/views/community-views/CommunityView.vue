@@ -49,11 +49,9 @@
 
 <script>
 import Post from '@/components/post-components/Post.vue';
-import Contents from '@/components/profile-components/Contents.vue';
 
 export default {
     components: {
-        Contents,
         Post
     },
     data() {

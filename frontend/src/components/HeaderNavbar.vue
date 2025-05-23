@@ -20,7 +20,7 @@
 <h1 v-if="onCommunity">Community Name</h1>
 
 
-        <h1 v-if="onProfile">@reychimaru</h1>
+        <h1 v-if="onProfile">reychimaru</h1>
         <h1 v-if="onPersonalize">Personalize</h1>
         <h1 v-if="onNotifications">Notifications</h1>
         <h1 v-if="onCommunities">Communities</h1>

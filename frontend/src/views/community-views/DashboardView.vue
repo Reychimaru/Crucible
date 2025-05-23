@@ -36,7 +36,7 @@
         </section>
     </article>
 
-    <article class="altContainer">
+    <article class="baseContainer">
         <form action="" @submit.prevent class="flexcolumn-h-start">
             <h3 class="panelName">Community card editor</h3>
             <label for="name" class="flexrow-sb">
@@ -66,10 +66,12 @@
     </article>
 
     <article class="baseContainer">
-        <form action="">
-            <h3 class="panelName">Members management</h3>
-            <button type="button" class="buttonText"></button>
-        </form>
+            <h3 class="panelName">Community management</h3>
+            <div class="flexcolumn-start">
+                <button type="button" class="buttonText">Manage members</button>
+                <button type="button" class="buttonText">Manage requests</button>
+                <button type="button" class="buttonText">Banned members</button>
+            </div>
     </article>
 </div>
 </template>
@@ -151,8 +153,7 @@ section {
 }
 
 form {
-    width: 100%;
-    padding: 0.75rem;
+    width: 100%;    
 }
 
 .cardHeader {
@@ -269,15 +270,6 @@ textarea {
     margin-right: 0;
     border-radius: 0.25rem 0rem 0rem 0.25rem;
     border-right: 2px solid #070707;
-    margin-bottom: 0.5rem;
-}
-
-.applyButton {
-    width: 50%
-}
-
-.cancelButton {
-    border-radius: 0rem 0.25rem 0.25rem 0rem;
     margin-bottom: 0.5rem;
 }
 

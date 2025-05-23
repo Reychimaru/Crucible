@@ -171,7 +171,7 @@ export default {
             isOpen: false,
             isCommentCreatorVisibile: false,
             postOptions: false,
-            isAuthor: false,
+            isAuthor: true,
             isRepost: false,
         };
     },

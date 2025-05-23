@@ -16,7 +16,7 @@
 
             </div>
             <div class="flexcolumn-v-start">
-                <p class="memberStats">30 Community posts | Joined 30/10/2025</p>
+                <p class="memberStats">30 Posts | Joined 30/10/2025</p>
             </div>
 
         </article>

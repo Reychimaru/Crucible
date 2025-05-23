@@ -8,7 +8,7 @@
     <h3 class="panelName"><i class="bi bi-shield-shaded"></i> Moderators</h3>
     <ul>
         <li v-for="(member, index) in moderators" :key="index">
-            <Member :member="member" />
+            <MemberBanner :member="member" />
         </li>
         <div class="baseContainer flexrow" v-if="moderators.length == 0">
             <p>No moderators found</p>
@@ -18,7 +18,7 @@
     <h3 class="panelName"><i class="bi bi-people"></i> Members</h3>
     <ul>
         <li v-for="(member, index) in normalMembers" :key="index">
-            <Member :member="member" />
+            <MemberBanner :member="member" />
         </li>
         <div class="baseContainer flexrow" v-if="normalMembers.length == 0">
             <p>No members found</p>
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import Member from '@/components/community-components/Member.vue';
+import MemberBanner from '@/components/community-components/Member.vue';
 
 export default {
     components: {
-        Member
+        MemberBanner
     },
     data() {
         return {
