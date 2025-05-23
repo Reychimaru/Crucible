@@ -12,7 +12,7 @@
         </section>
         <h1 v-if="onMessages">Messages</h1>
         <h1 v-if="onSettings">Settings</h1>
-        <h1 v-if="onFeedPosting">Create</h1>
+        <h1 v-if="onPosting">Posting</h1>
         <h1 v-if="onPost">Post</h1>
 
         <h1 v-if="onExplore">Explore</h1>
@@ -25,7 +25,7 @@
         <h1 v-if="onNotifications">Notifications</h1>
         <h1 v-if="onCommunities">Communities</h1>
         <h1 v-if="onMembers">Community Name</h1>
-        <h1 v-if="onFeed">crucible</h1>
+        <h1 v-if="onFeed">Crucible</h1>
 
         
         <section class="flexrow-sb">
@@ -40,7 +40,7 @@
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-people"></i></button>
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-envelope-exclamation"></i></button>
 
-            <button class="buttonIcon" v-if="onFeedPosting"><i class="bi bi-info-circle"></i></button>
+            <button class="buttonIcon" v-if="onPosting"><i class="bi bi-info-circle"></i></button>
 
 
             <RouterLink to="/communities" v-if="onExplore"><button class="buttonIcon"><i class="bi bi-tags"></i></button></RouterLink>
@@ -75,7 +75,8 @@ export default {
             onChat: true,
             onCommunity: true,
             onCommunities: true,
-            onMembers: true
+            onMembers: true,
+            onPosting: true,
         }
     },
     methods: {
@@ -107,7 +108,7 @@ export default {
             this.onProfile = ['/user/id'].includes(newPath);
             this.onNotifications = ['/notifications'].includes(newPath);
             this.onMessages = ['/messages'].includes(newPath);
-            this.onFeedPosting = ['/feed/posting'].includes(newPath);
+            this.onPosting = ['/feed/posting'].includes(newPath);
             this.onSettings = ['/settings'].includes(newPath);
             this.onPersonalize = ['/personalize'].includes(newPath);
             this.onPost = ['/post/id'].includes(newPath);
@@ -119,7 +120,7 @@ export default {
     created() {
         this.onFeed = ['/feed'].includes(this.$route.path);
         this.onSettings = ['/settings'].includes(this.$route.path);
-        this.onFeedPosting = ['/feed/posting'].includes(this.$route.path);
+        this.onPosting = ['/feed/posting'].includes(this.$route.path);
         this.onPost = ['/post/id'].includes(this.$route.path);
         this.onExplore = ['/explore'].includes(this.$route.path);
         this.onProfile = ['/user/id'].includes(this.$route.path);
@@ -151,7 +152,7 @@ article {
 h1 {
     color: white;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
 .noButton {

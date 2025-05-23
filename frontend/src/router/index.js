@@ -6,7 +6,7 @@ import RecoverView from '../views/main-views/RecoverView.vue'
 import NotFoundView from '../views/main-views/NotFoundView.vue'
 
 import FeedView from '../views/feed-views/FeedView.vue'
-import FeedPostingView from '@/views/feed-views/FeedPostingView.vue'
+import PostingView from '@/views/feed-views/PostingView.vue'
 
 import SettingsView from '../views/main-views/SettingsView.vue'
 
@@ -20,7 +20,6 @@ import CommunityPostingView from '@/views/community-views/CommunityPostingView.v
 import CreateView from '@/views/community-views/CreateView.vue'
 
 import ProfileView from '../views/profile-views/ProfileView.vue'
-import Follower from '@/components/profile-components/Follower.vue'
 import PersonalizeView from '../views/profile-views/PersonalizeView.vue'
 
 import NotificationsView from '../views/main-views/NotificationsView.vue'
@@ -67,8 +66,8 @@ const router = createRouter({
     },
     {
       path: '/feed/posting',
-      name: 'FeedPosting',
-      component: FeedPostingView,
+      name: 'Posting',
+      component: PostingView,
     },
     {
       path: '/settings',
