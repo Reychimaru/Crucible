@@ -1,11 +1,24 @@
 <template>
 <article class="carouselContainer flexcolumn" :style="{ backgroundImage: `url(${content[carouselIndex]})` }">
-    <img :src="content[carouselIndex]" alt="" @onclick="" class="carouselContent">
-    <button type="button" v-if="content.length > 1" @click="prevContent" class="buttonIcon flexrow carouselButtonLeft"><i class="bi bi-arrow-left-circle"></i></button>
-    <button type="button" v-if="content.length > 1" @click="nextContent" class="buttonIcon flexrow carouselButtonRight"><i class="bi bi-arrow-right-circle"></i></button>
-    <button type="button" @click="emitDiscard" class="buttonIcon flexrow carouselButtonDiscard"><i class="bi bi-trash"></i></button>
-    <button type="button" @click="addContent" class="buttonIcon flexrow carouselButtonAdd"><i class="bi bi-images"></i></button>
-    <div v-if="content.length > 1" class="flexrow carouselCounter">{{ carouselIndex + 1 }} <span>/</span> {{ content.length }}</div>
+    <img :src="content[carouselIndex]" alt="" class="carouselContent">
+    <button type="button" v-if="content.length > 1" @click="prevContent" class="buttonIcon flexrow carouselButtonLeft">
+        <i class="bi bi-arrow-left-circle"></i>
+    </button>
+    <button type="button" v-if="content.length > 1" @click="nextContent" class="buttonIcon flexrow carouselButtonRight">
+        <i class="bi bi-arrow-right-circle"></i>
+    </button>
+    <button type="button" @click="emitDiscard" class="buttonIcon flexrow carouselButtonDiscard">
+        <i class="bi bi-trash"></i>
+    </button>
+    <button type="button" 
+            @click="addContent" 
+            class="buttonIcon flexrow carouselButtonAdd" 
+            :disabled="content.length >= 10">
+        <i class="bi bi-images"></i>
+    </button>
+    <div v-if="content.length > 1" class="flexrow carouselCounter">
+        {{ carouselIndex + 1 }} <span>/</span> {{ content.length }}
+    </div>
 </article>
 </template>
 
@@ -24,20 +37,26 @@ export default {
     },
     methods: {
         emitDiscard() {
-            this.$emit('discard', this.carouselIndex)
+            this.$emit('discard', this.carouselIndex);
+            if (this.carouselIndex >= this.content.length - 1 && this.carouselIndex > 0) {
+                this.carouselIndex--;
+            }
         },
         prevContent() {
-            if (this.content.length === 0 || this.carouselIndex === 0) {
-                return;
-            }
+            if (this.content.length === 0 || this.carouselIndex === 0) return;
             this.carouselIndex--;
         },
         nextContent() {
-            if (this.carouselIndex >= this.content.length - 1) {
-                return;
-            }
+            if (this.carouselIndex >= this.content.length - 1) return;
             this.carouselIndex++;
         },
+        addContent() {
+            if (this.content.length >= 10) {
+                alert("Limite massimo di 10 immagini raggiunto.");
+                return;
+            }
+            this.$emit('add-content');
+        }
     }
 }
 </script>

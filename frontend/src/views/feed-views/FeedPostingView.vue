@@ -1,58 +1,71 @@
 <template>
 <div class="basePadder">
     <article class="baseContainer">
-        <form action="">
+        <form action="" @submit.prevent="submitPost">
             <h3 class="panelName">Create post</h3>
             <label for="title" class="flexrow-sb">
-                <span>Title</span>
-                <span>Error</span>
+                <span>Title*</span>
+                <span v-if="requiredTitle" class="inputError">Required</span>
             </label>
-            <textarea class="titleInput" name="title" placeholder="Enter a title" ref="inputContent" maxlength="125" required></textarea>
+            <textarea class="titleInput" name="title" placeholder="Enter a title" maxlength="125" required @invalid="handleTitleError($event)"></textarea>
 
-            <button type="button" v-if="content.length === 0" @click="uploadFile()" class="buttonText mediaUploader flexcolumn">
+            <!-- Bottone per aggiungere immagini se non ce ne sono -->
+            <label for="media" class="flexrow-sb">
+                <span>Description</span>
+                <span class="inputError">Error</span>
+            </label>
+            <button name="media" type="button" v-if="content.length === 0" @click="uploadFile" class="buttonText mediaUploader flexcolumn">
                 <i class="bi bi-images"></i>
                 <span>Add images or videos</span>
             </button>
 
-            <CreateCarousel v-if="content.length > 0" :content="content" @discard="handleDiscard" />
+            <!-- Carosello con immagini e bottone per aggiungere altre -->
+            <CreateCarousel v-if="content.length > 0" :content="content" @discard="handleDiscard" @add-content="uploadFile" />
 
-            <input type="file" name="media" accept="image/*" ref="uploadFile" @change="previewFile">
+            <!-- Input file nascosto -->
+            <input type="file" name="media" accept="image/*" ref="uploadFile" @change="previewFile" style="display: none" />
 
             <label for="description" class="flexrow-sb">
                 <span>Description</span>
-                <span>Error</span>
+                <span class="inputError">Error</span>
             </label>
-            <textarea name="description" placeholder="Write a post" ref="inputContent" maxlength="2500" required></textarea>
+            <textarea class="descriptionInput" name="description" placeholder="Write a post" maxlength="2500" required></textarea>
 
+            <label for="spoiler" class="flexrow-sb">
+                <span>Spoilers subject</span>
+                <span class="inputError">Error</span>
+            </label>
+            <input name="spoiler" type="text" placeholder="A movie or a book title" />
+
+            <label for="tags" class="flexrow-sb">
+                <span>Add Tags</span>
+                <span v-if="tagError" class="inputError">No symbols or spacing</span>
+            </label>
+            <div class="flexrow-h-start addTagContainer">
+                <input class="tagInput" name="tags" type="text" ref="inputTags" maxlength="25" />
+                <button @click="addTag" type="button" class="buttonText addTagButton">
+                    Add
+                </button>
+            </div>
             <div class="tagsPreview flexrow-h-start">
-                <p v-if="tags.length == 0" class="greyText">No tags added</p>
-                <ul v-if="!tags.length == 0" class="tags">
-                    <li v-for="(tag, index) in tags" :key="index" @click="discardTag(index)">
+                <p v-if="tags.length === 0" class="greyText noTags">No tags added</p>
+                <ul v-if="tags.length !== 0" class="tags">
+                    <li v-for="(tag, index) in tags" :key="index" @click="discardTag(index)" :style="getSpecialTag(tag) ? { backgroundColor: getSpecialTag(tag).color } : {}">
                         <p>#{{ tag.name }}</p>
                     </li>
                 </ul>
             </div>
 
-            <label for="tags" class="flexrow-sb">
-                <span>Add Tags</span>
-                <span>Error</span>
-            </label>
-            <div class="flexrow-h-start addTagContainer">
-                <input class="tagInput" name="tags" type="text" placeholder="Hashtag not required" ref="inputTags" maxlength="25" />
-                <button @click="addTag" @keydown.enter.prevent="addTag" type="button" class="buttonText addTagButton">Add</button>
-            </div>
             <div class="flexrow markingButtons">
-                <button type="button" class="flexrow buttonText" @click="markAsMature()">
-                    <input class="checkbox" type="checkbox" name="mature" ref="markAsMature">
-                    <span>Mature Content</span>
-                </button>
-                <button type="button" class="flexrow buttonText" @click="markAsSpoiler()">
-                    <input class="checkbox" type="checkbox" name="spoiler" ref="markAsSpoiler">
-                    <span>Spoiler</span>
+                <button type="button" class="flexrow buttonText" @click="markAsMature">
+                    <input class="checkbox" type="checkbox" name="mature" ref="markAsMature" />
+                    <span>This post contains mature content</span>
                 </button>
             </div>
             <div class="flexrow-h-end formButtons">
-                <button @click="cancelPost" class="cancelButton buttonText" type="button">Cancel</button>
+                <button @click="cancelPost" class="cancelButton buttonText" type="button">
+                    Cancel
+                </button>
                 <button class="postButton buttonText" type="submit">Post</button>
             </div>
         </form>
@@ -65,65 +78,106 @@ import CreateCarousel from '@/components/create-components/CreateCarousel.vue';
 
 export default {
     components: {
-        CreateCarousel
+        CreateCarousel,
     },
     data() {
         return {
+            tags: [],
+            content: [],
+            requiredTitle: false,
 
-            tags: [
+            titleError: false,
+            mediaError: false,
+            descriptionError: false,
+            tagError: false,
 
-            ],
 
-            community: {
-                name: "Dark Fantasy RPGs",
-            },
+            specialTags: [{
+                name: 'fortnite',
+                color: 'blue'
+            }, ]
 
-            content: [
-                '/public/asset/image1.webp',
-                '/public/asset/image2.jpg',
-                '/public/asset/image3.jpg',
-            ],
         };
     },
     methods: {
         uploadFile() {
+            if (this.content.length >= 10) {
+                alert('Hai raggiunto il limite massimo di 10 immagini.');
+                return;
+            }
             this.$refs.uploadFile.click();
         },
         handleDiscard(index) {
             this.content.splice(index, 1);
+            if (this.content.length === 0) {
+                // opzionale: reset carousel index se vuoi
+            }
         },
         addTag() {
             const tagInput = this.$refs.inputTags;
-            const tagValue = tagInput.value.trim().toLowerCase(); // converte in minuscolo
-            if (!this.tags.length == 5) {
-                if (tagValue.length > 0 && !this.tags.find(tag => tag.name.toLowerCase() === tagValue)) {
-                    this.tags.push({
-                        name: tagValue
-                    });
-                    tagInput.value = '';
-                }
+            const tagValue = tagInput.value.trim().toLowerCase();
+
+            if (!/^[a-z0-9_&àèéìòù-]+$/.test(tagValue)) {
+                this.tagError = true;
+                return;
             }
 
+            if (this.tags.length < 5) {
+                if (
+                    tagValue.length > 0 &&
+                    !this.tags.find((tag) => tag.name.toLowerCase() === tagValue)
+                ) {
+                    this.tags.push({
+                        name: tagValue,
+                    });
+                    tagInput.value = '';
+                    this.tagError = false;
+                }
+            }
+        },
+        getSpecialTag(tag) {
+            return this.specialTags.find(special => special.name === tag.name.toLowerCase());
         },
         discardTag(index) {
             this.tags.splice(index, 1);
         },
         previewFile(event) {
-            const file = event.target.files[0];
+            const files = event.target.files;
+            if (!files.length) return;
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.content.push(e.target.result)
+            for (let i = 0; i < files.length && this.content.length < 10; i++) {
+                const file = files[i];
+
+                // ✅ Controlla che sia un'immagine
+                if (!file.type.startsWith("image/")) {
+                    alert("Sono accettati solo file immagine.");
+                    continue;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.content.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file)
+
+            // Reset per permettere di ricaricare gli stessi file
+            this.$refs.uploadFile.value = '';
         },
         markAsMature() {
             this.$refs.markAsMature.click();
         },
-        markAsSpoiler() {
-            this.$refs.markAsSpoiler.click();
+        handleTitleError(event) {
+            event.preventDefault();
+            this.requiredTitle = true;
         },
-    }
+        cancelPost() {
+            // implementa il reset o la navigazione indietro
+        },
+        submitPost() {
+            // logica submit
+        },
+    },
 };
 </script>
 
@@ -133,16 +187,13 @@ export default {
 }
 
 .titleInput {
-    height: 5.25rem;
-    min-height: 5.25rem;
+    max-height: 4rem;
     resize: none;
 }
 
 .mediaUploader {
     width: 100%;
-    height: 100%;
-    aspect-ratio: 1 / 1;
-    margin: 0.75rem 0rem;
+    height: 8rem;
     outline: 2px dashed #171717;
 }
 
@@ -150,10 +201,8 @@ export default {
     font-size: 4rem;
 }
 
-textarea {
-    height: 8rem;
+.descriptionInput {
     min-height: 8rem;
-    margin-bottom: 0rem;
     resize: vertical;
 }
 
@@ -175,6 +224,7 @@ form>div {
 .markingButtons {
     width: 100%;
     gap: 0.75rem;
+    margin-top: 0.75rem;
 }
 
 .markingButtons>button {
@@ -202,12 +252,12 @@ input[type='file'] {
 }
 
 .tagsPreview {
-    background-color: #070707;
-    outline: 1px solid #171717;
+    outline: 2px dashed #171717;
     border-radius: 0.25rem;
-    min-height: 2.5rem;
+    min-height: 2rem;
     margin-top: 0.75rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0rem 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .addTagContainer {
@@ -218,6 +268,7 @@ input[type='file'] {
 .tagInput {
     width: calc(75% + 0.55rem);
     border-radius: 0.25rem 0rem 0rem 0.25rem;
+    z-index: 1;
 }
 
 .addTagButton {
@@ -235,12 +286,21 @@ input[type='file'] {
 }
 
 .tags>li {
-    margin: 0.25rem 0rem;
+    margin-top: 0.25rem;
     margin-right: 0.5rem;
     cursor: pointer;
     background-color: #171717;
     padding: 0.25rem 0.5rem;
     padding-left: 0.75rem;
     border-radius: 1rem 0.25rem 0.25rem 1rem;
+}
+
+.noTags {
+    width: 100%;
+    text-align: center;
+}
+
+.inputError {
+    color: #e53935;
 }
 </style>
