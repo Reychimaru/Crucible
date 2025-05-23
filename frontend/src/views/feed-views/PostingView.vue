@@ -2,7 +2,7 @@
 <div class="basePadder">
     <article class="baseContainer">
         <form action="" @submit.prevent="submitPost">
-            <h3 class="panelName">Create post</h3>
+            <h3 class="panelName">Create a post</h3>
             <label for="title" class="flexrow-sb">
                 <span>Title*</span>
                 <span v-if="requiredTitle" class="inputError">Required</span>
@@ -24,16 +24,10 @@
                 </button>
             </div>
 
-            <!-- Input file nascosto per video -->
             <input type="file" accept="video/*" ref="uploadVideoInput" @change="previewVideo" style="display: none" />
+            <video v-if="videoPreview" :src="videoPreview" controls class="videoPreview" loop></video>
 
-            <!-- Preview del video se presente -->
-            <video v-if="videoPreview" :src="videoPreview" controls class="videoPreview" loop />
-
-            <!-- Carosello con immagini e bottone per aggiungere altre -->
             <CreateCarousel v-if="content.length > 0" :content="content" @discard="handleDiscard" @add-content="uploadFile" />
-
-            <!-- Input file nascosto -->
             <input type="file" name="media" accept="image/*" ref="uploadFile" @change="previewFile" style="display: none" />
 
             <label for="description" class="flexrow-sb">
@@ -43,7 +37,7 @@
             <textarea class="descriptionInput" name="description" placeholder="Write a post" maxlength="2500" required></textarea>
 
             <label for="spoiler" class="flexrow-sb">
-                <span>Spoilers subject</span>
+                <span>Spoiler subject</span>
                 <span class="inputError">No symbols allowed</span>
             </label>
             <input name="spoiler" type="text" placeholder="Leave this empty if there are no spoilers" />
@@ -83,8 +77,10 @@
     </article>
 
     <article class="baseContainer">
+        <p>Title is required</p>
+        <p>you can add up to 10 images</p>
         <p></p>
-
+        <p></p>
     </article>
 
 </div>
