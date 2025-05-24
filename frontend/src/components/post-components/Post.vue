@@ -159,6 +159,8 @@
         </div>
         <button v-if="isAuthor" class="buttonText">Edit post</button>
         <button v-if="isAuthor" class="buttonText">Delete post</button>
+        <button v-if="isAuthor" class="buttonText">Add to highlights</button>
+        <button v-if="isAuthor" class="buttonText">Remove to highlights</button>
         <button v-if="!isAuthor" class="buttonText">Follow @{{ post.author.username }}</button>
         <button v-if="!isAuthor" class="buttonText">Report post</button>
         <button class="buttonText">Copy URL</button>

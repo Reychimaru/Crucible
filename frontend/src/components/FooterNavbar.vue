@@ -1,7 +1,7 @@
 <template>
 <nav class="baseContainer footerNavContainer flexcolumn">
     <article class="flexrow-sb">
-        <RouterLink to="/feed" exact-active-class="active" v-if="!onFeed">
+        <RouterLink to="/" exact-active-class="active" v-if="!onFeed">
             <button @click="playAudio"  class="buttonIcon"><i class="bi bi-house-door"></i></button>
         </RouterLink>
         <button @click="scrollToTop" class="buttonIcon active" v-if="onFeed"><i class="bi bi-house-door"></i></button>

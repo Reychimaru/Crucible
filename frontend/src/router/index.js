@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomeView from '../views/main-views/HomeView.vue'
-import RegisterView from '../views/main-views/RegisterView.vue'
-import RecoverView from '../views/main-views/RecoverView.vue'
-import NotFoundView from '../views/main-views/NotFoundView.vue'
+import LoginView from '../views/signing-views/LoginView.vue'
+import RegisterView from '../views/signing-views/RegisterView.vue'
+import RecoverView from '../views/signing-views/RecoverView.vue'
+import NotFoundView from '../views/home-views/NotFoundView.vue'
 
-import FeedView from '../views/feed-views/FeedView.vue'
-import PostingView from '@/views/feed-views/PostingView.vue'
+import HomeView from '../views/home-views/HomeView.vue'
+import PostingView from '@/views/home-views/PostingView.vue'
 
-import SettingsView from '../views/main-views/SettingsView.vue'
+import SettingsView from '../views/profile-views/SettingsView.vue'
 
-import ExploreView from '../views/main-views/ExploreView.vue'
+import ExploreView from '../views/explore-views/ExploreView.vue'
 
 import CommunityView from '@/views/community-views/CommunityView.vue'
 import CommunitiesView from '@/views/community-views/CommunitiesView.vue'
@@ -22,11 +22,11 @@ import CreateView from '@/views/community-views/CreateView.vue'
 import ProfileView from '../views/profile-views/ProfileView.vue'
 import PersonalizeView from '../views/profile-views/PersonalizeView.vue'
 
-import NotificationsView from '../views/main-views/NotificationsView.vue'
+import NotificationsView from '../views/notifications-views/NotificationsView.vue'
 
-import MessagesView from '../views/main-views/MessagesView.vue'
-import ChatView from '../views/main-views/ChatView.vue'
-import PostView from '../views/feed-views/PostView.vue'
+import MessagesView from '../views/chat-views/MessagesView.vue'
+import ChatView from '../views/chat-views/ChatView.vue'
+import PostView from '../views/home-views/PostView.vue'
 import FollowersView from '@/views/profile-views/FollowersView.vue'
 
 
@@ -42,30 +42,12 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/register',
-      name: 'register',
-      component: RegisterView,
-    },
-    {
-      path: '/recover',
-      name: 'recover',
-      component: RecoverView,
-    },
-    {
       path: '/:pathMatch(.*)*',
       name: 'notfound',
       component: NotFoundView,
     },
-
-    /* ----- Feed ----- */
-
     {
-      path: '/feed',
-      name: 'Feed',
-      component: FeedView,
-    },
-    {
-      path: '/feed/posting',
+      path: '/posting',
       name: 'Posting',
       component: PostingView,
     },
@@ -80,8 +62,24 @@ const router = createRouter({
       component: PostView,
     },
 
-    /* ----- Explore ----- */
+    /* ----- Signing ----- */
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView,
+    },
+    {
+      path: '/recover',
+      name: 'recover',
+      component: RecoverView,
+    },
 
+    /* ----- Explore ----- */
     {
       path: '/explore',
       name: 'Explore',
@@ -133,7 +131,7 @@ const router = createRouter({
       name: 'Personalize',
       component: PersonalizeView,
     },
-        {
+    {
       path: '/user/:username/followers',
       name: 'Followers',
       component: FollowersView,

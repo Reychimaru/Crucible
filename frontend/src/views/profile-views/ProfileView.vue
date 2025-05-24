@@ -31,20 +31,32 @@
                 </p>
             </div>
         </section>
-        <nav class="flexrow">
-            <input type="search" v-model="searchQuery" :placeholder="`Search posts by ${username}`">
-            <button v-if="!isContentGrid" @click="contentGrid()" class="buttonText">Contents</button>
-            <button v-if="isContentGrid" @click="contentGrid()" class="buttonText">Posts</button>
+        <nav class="flexrow-sb">
+            <button v-if="!showPosts" @click="showSection('posts')" class="buttonText">Posts</button>
+            <button v-if="showPosts" @click="showSection('posts')" class="buttonText buttonActive">Posts</button>
+
+            <button v-if="!showHightlights" @click="showSection('highlights')" class="buttonText">Highlights</button>
+            <button v-if="showHightlights" @click="showSection('highlights')" class="buttonText buttonActive">Highlights</button>
+
+            <button v-if="!showContents" @click="showSection('contents')" class="buttonText">Contents</button>
+            <button v-if="showContents" @click="showSection('contents')" class="buttonText buttonActive">Contents</button>
         </nav>
     </article>
 
-    <Contents v-if="isContentGrid" :posts="posts" />
+    <Contents v-if="showContents" :posts="posts" />
 
-    <ul v-if="!isContentGrid">
+    <ul v-if="showPosts">
         <li v-for="(post, index) in posts" :key="index">
             <Post :post="post" />
         </li>
     </ul>
+
+    <ul v-if="showHightlights">
+        <li v-for="(post, index) in posts" :key="index">
+            <Post :post="post" />
+        </li>
+    </ul>
+
 </div>
 </template>
 
@@ -70,7 +82,10 @@ export default {
 
             isOwner: false,
 
-            isContentGrid: false,
+            showPosts: true,
+            showHightlights: false,
+            showContents: false,
+
 
             searchQuery: '',
 
@@ -573,34 +588,23 @@ export default {
         };
     },
     methods: {
-        searchPosts() {
-            const query = this.searchQuery.trim().toLowerCase();
-
-            if (query.startsWith('#')) {
-                const tagQuery = query.slice(1);
-                return this.posts.filter(post =>
-                    post.tags.some(tag => tag.name.toLowerCase().includes(tagQuery))
-                );
-            }
-
-            if (query.startsWith('@')) {
-                const usernameQuery = query.slice(1);
-                return this.posts.filter(post =>
-                    post.author.username.toLowerCase().includes(usernameQuery)
-                );
-            }
-
-            return this.posts.filter(post =>
-                post.title.toLowerCase().includes(query)
-            );
-        },
-        contentGrid() {
-            switch (this.isContentGrid) {
-                case true:
-                    this.isContentGrid = false
+        showSection(section) {
+            switch (section) {
+                case "posts":
+                    this.showPosts = true
+                    this.showHightlights = false
+                    this.showContents = false
                     break;
-                case false:
-                    this.isContentGrid = true
+                case "highlights":
+                    this.showPosts = false
+                    this.showHightlights = true
+                    this.showContents = false
+                    break;
+                case "contents":
+                    this.showPosts = false
+                    this.showHightlights = false
+                    this.showContents = true
+                    break;
             }
         }
     }
@@ -701,16 +705,12 @@ export default {
 nav {
     width: 100%;
     padding: 0.75rem;
-}
-
-nav>div {
-    width: 100%;
     gap: 0.75rem;
 }
 
-nav>div>button {
-    width: 100%;
-    margin-bottom: 0.75rem;
+nav>button {
+    width: 33.333%;
+    height: 2rem;
 }
 
 .profileButtons {
@@ -729,5 +729,10 @@ nav>div>button {
 
 .profileButtons>.routerLink>button {
     width: calc(100% - 0.55rem);
+}
+
+.buttonActive {
+    background-color: #171717;
+    border-radius: 0.25rem;
 }
 </style>

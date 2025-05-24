@@ -3,34 +3,29 @@
     <article class="flexrow-sb">
         <section class="flexrow-sb">
 
-            <RouterLink to="/user/id" v-if="onFeed">
+            <RouterLink to="/user/id" v-if="onHome">
                 <button @click="playAudio" class="buttonIcon"><i class="bi bi-person-circle"></i></button>
             </RouterLink>
 
-            <button class="buttonIcon" v-if="!onFeed" @click="goBack"><i class="bi bi-chevron-left"></i></button>
+            <button class="buttonIcon" v-if="!onHome" @click="goBack"><i class="bi bi-chevron-left"></i></button>
 
         </section>
         <h1 v-if="onMessages">Messages</h1>
         <h1 v-if="onSettings">Settings</h1>
         <h1 v-if="onPosting">Posting</h1>
         <h1 v-if="onPost">Post</h1>
-
         <h1 v-if="onExplore">Explore</h1>
-
-<h1 v-if="onCommunity">Community Name</h1>
-
-
+        <h1 v-if="onCommunity">Community Name</h1>
         <h1 v-if="onProfile">reychimaru</h1>
         <h1 v-if="onPersonalize">Personalize</h1>
         <h1 v-if="onNotifications">Notifications</h1>
         <h1 v-if="onCommunities">Communities</h1>
         <h1 v-if="onMembers">Community Name</h1>
-        <h1 v-if="onFeed">Crucible</h1>
+        <h1 v-if="onHome">Crucible</h1>
 
-        
         <section class="flexrow-sb">
 
-            <RouterLink to="/feed/posting" v-if="onFeed">
+            <RouterLink to="/posting" v-if="onHome">
                 <button @click="playAudioClick" class="buttonIcon">
                     <i class="bi bi-plus-circle"></i>
                 </button>
@@ -41,7 +36,6 @@
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-envelope-exclamation"></i></button>
 
             <button class="buttonIcon" v-if="onPosting"><i class="bi bi-info-circle"></i></button>
-
 
             <RouterLink to="/communities" v-if="onExplore"><button class="buttonIcon"><i class="bi bi-tags"></i></button></RouterLink>
 
@@ -64,7 +58,7 @@
 export default {
     data() {
         return {
-            onFeed: true,
+            onHome: true,
             onProfile: true,
             onSettings: true,
             onExplore: true,
@@ -103,12 +97,12 @@ export default {
     },
     watch: {
         route(newPath) {
-            this.onFeed = ['/feed'].includes(newPath);
+            this.onHome = ['/'].includes(newPath);
             this.onExplore = ['/explore'].includes(newPath);
             this.onProfile = ['/user/id'].includes(newPath);
             this.onNotifications = ['/notifications'].includes(newPath);
             this.onMessages = ['/messages'].includes(newPath);
-            this.onPosting = ['/feed/posting'].includes(newPath);
+            this.onPosting = ['/posting'].includes(newPath);
             this.onSettings = ['/settings'].includes(newPath);
             this.onPersonalize = ['/personalize'].includes(newPath);
             this.onPost = ['/post/id'].includes(newPath);
@@ -118,9 +112,9 @@ export default {
         }
     },
     created() {
-        this.onFeed = ['/feed'].includes(this.$route.path);
+        this.onHome = ['/'].includes(this.$route.path);
         this.onSettings = ['/settings'].includes(this.$route.path);
-        this.onPosting = ['/feed/posting'].includes(this.$route.path);
+        this.onPosting = ['/posting'].includes(this.$route.path);
         this.onPost = ['/post/id'].includes(this.$route.path);
         this.onExplore = ['/explore'].includes(this.$route.path);
         this.onProfile = ['/user/id'].includes(this.$route.path);

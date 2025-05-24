@@ -6,11 +6,6 @@
         <button class="buttonText applyButton">Search</button>
     </form>
     <i class="searchIcon bi bi-search"></i>
-    <nav class="flexrow">
-        <button class="roundLeft buttonText">Posts</button>
-        <button class="buttonText">Users</button>
-        <button class="roundRight buttonText">Communities</button>
-    </nav>
 </article>
 </div>
 </template>

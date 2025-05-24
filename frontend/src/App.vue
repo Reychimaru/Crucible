@@ -1,6 +1,6 @@
 <template>
     <header>
-      <HeaderNavbar v-if="onHome" />
+      <HeaderNavbar v-if="onSigning" />
     </header>
   
     <main>
@@ -12,7 +12,7 @@
     </main>
   
     <footer>
-      <FooterNavbar v-if="onHome" />
+      <FooterNavbar v-if="onSigning" />
     </footer>
   </template>
   
@@ -33,9 +33,8 @@
     },
     data() {
       return {
-        onHome: true,
-        onProfile: true,
-        previousRouteName: null, // Definisci previousRouteName qui
+        onSigning: true,
+        previousRouteName: null,
       }
     },
     computed: {
@@ -45,32 +44,16 @@
       transitionName() {
         const from = this.previousRouteName;
         const to = this.$route.name;
-  
-/*         if (from && to && from === 'feed' && to === 'settings') {
-          return 'slide-right';
-        }
-        if (from && to && from === 'settings' && to === 'feed') {
-          return 'slide-left';
-        }
-  
-        if (from && to && from === 'feed' && to === 'create') {
-          return 'slide-left';
-        }
-        if (from && to && from === 'create' && to === 'feed') {
-          return 'slide-right';
-        } */
-
-
-        return 'fade'; // default fade transition
+        return 'fade';
       }
     },
     watch: {
       route(newPath) {
-        this.onHome = !['/', '/register', '/recover'].includes(newPath);
+        this.onSigning = !['/login', '/register', '/recover'].includes(newPath);
       }
     },
     created() {
-      this.onHome = !['/', '/register', '/recover'].includes(this.$route.path);
+      this.onSigning = !['/login', '/register', '/recover'].includes(this.$route.path);
   
       // Imposta il nome della route precedente
       this.$router.beforeEach((to, from, next) => {
@@ -82,7 +65,6 @@
   </script>
   
   <style scoped>
-  /* Fade */
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.25s ease;
@@ -96,44 +78,6 @@
   .fade-enter-to,
   .fade-leave-from {
     opacity: 1;
-  }
-  
-  /* Slide left */
-  .slide-left-enter-active,
-  .slide-left-leave-active {
-    transition: transform 0.3s ease;
-  }
-  
-  .slide-left-enter-from {
-    transform: translateX(100%);
-  }
-  
-  .slide-left-leave-to {
-    transform: translateX(-100%);
-  }
-  
-  .slide-left-enter-to,
-  .slide-left-leave-from {
-    transform: translateX(0);
-  }
-  
-  /* Slide right */
-  .slide-right-enter-active,
-  .slide-right-leave-active {
-    transition: transform 0.3s ease;
-  }
-  
-  .slide-right-enter-from {
-    transform: translateX(-100%);
-  }
-  
-  .slide-right-leave-to {
-    transform: translateX(100%);
-  }
-  
-  .slide-right-enter-to,
-  .slide-right-leave-from {
-    transform: translateX(0);
   }
   </style>
   

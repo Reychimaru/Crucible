@@ -76,12 +76,12 @@
         </form>
     </article>
 
-    <article class="baseContainer">
+<!--     <article class="baseContainer">
         <p>Title is required</p>
         <p>you can add up to 10 images</p>
         <p></p>
         <p></p>
-    </article>
+    </article> -->
 
 </div>
 </template>

@@ -45,13 +45,14 @@ export default {
 .gridWrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     padding: 0rem 0.5rem;
     margin-bottom: 0.75rem;
 }
 
 .contentGrid {
     width: 33.3333%;
-    border: 2px solid black;
+    border: 3px solid black;
     overflow: hidden;
     border-radius: 0.25rem;
 }
@@ -67,6 +68,7 @@ export default {
 
 .blurFilter {
     filter: blur(25px);
+    border-radius: 0.25rem;
 }
 
 .filteredContent {
@@ -89,6 +91,6 @@ export default {
 }
 
 .contentWarning>p {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 </style>
