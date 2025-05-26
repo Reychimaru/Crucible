@@ -11,6 +11,7 @@ import PostingView from '@/views/home-views/PostingView.vue'
 import SettingsView from '../views/profile-views/SettingsView.vue'
 
 import ExploreView from '../views/explore-views/ExploreView.vue'
+import interestsView from '../views/explore-views/InterestsView.vue'
 
 import CommunityView from '@/views/community-views/CommunityView.vue'
 import CommunitiesView from '@/views/community-views/CommunitiesView.vue'
@@ -84,6 +85,11 @@ const router = createRouter({
       path: '/explore',
       name: 'Explore',
       component: ExploreView,
+    },
+      {
+      path: '/interests',
+      name: 'interests',
+      component: interestsView,
     },
 
     /* ----- Community ----- */

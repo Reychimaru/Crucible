@@ -99,8 +99,8 @@
         </div>
 
         <div v-if="!isOpen && post.isSpoiler" class="postDescription flexcolumn-start">
-            <RouterLink :to="`/post/${ post.postId }`">
-                <p><span class="spoilerDescription">{{ post.description }}</span> <span class="more">show more</span></p>
+            <RouterLink :to="`/post/${ post.postId }`" class="spoilerDescription flexcolumn">
+                <p>Contains spoilers</p>
             </RouterLink>
             <p class="postedAt">{{ post.postedAt }}</p>
         </div>
@@ -335,12 +335,9 @@ export default {
 }
 
 .spoilerDescription {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    height: 3rem;
+    width: 100%;
     background-color: #171717;
-    color: #171717;
 }
 
 .more {
@@ -383,9 +380,6 @@ export default {
     padding-bottom: 0.5rem;
     margin-bottom: 0.5rem;
     border-bottom: 1px solid #171717;
-}
-
-.repostInfo>p {
-    margin-right: 0.25rem;
+    gap: 0.25rem;
 }
 </style>

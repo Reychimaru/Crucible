@@ -3,6 +3,7 @@
     <ul>
         <li v-for="(post, index) in posts" :key="index">
             <Post :post="post" />
+            <Repost :post="post" />
         </li>
     </ul>
 </div>
@@ -10,10 +11,12 @@
 
 <script>
 import Post from '@/components/post-components/Post.vue';
+import Repost from '@/components/post-components/Repost.vue';
 
 export default {
     components: {
         Post,
+        Repost
     },
     data() {
         return {

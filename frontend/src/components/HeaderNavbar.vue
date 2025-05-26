@@ -21,6 +21,7 @@
         <h1 v-if="onNotifications">Notifications</h1>
         <h1 v-if="onCommunities">Communities</h1>
         <h1 v-if="onMembers">Community Name</h1>
+        <h1 v-if="onInterests">Interests</h1>
         <h1 v-if="onHome">Crucible</h1>
 
         <section class="flexrow-sb">
@@ -31,13 +32,13 @@
                 </button>
             </RouterLink>
 
-            <button class="buttonIcon" v-if="onPost || onMembers" @click="scrollToTop"><i class="bi bi-chevron-up"></i></button>
+            <button class="buttonIcon" v-if="onPost || onMembers || onInterests" @click="scrollToTop"><i class="bi bi-chevron-up"></i></button>
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-people"></i></button>
             <button class="buttonIcon" v-if="onMessages"><i class="bi bi-envelope-exclamation"></i></button>
 
             <button class="buttonIcon" v-if="onPosting"><i class="bi bi-info-circle"></i></button>
 
-            <RouterLink to="/communities" v-if="onExplore"><button class="buttonIcon"><i class="bi bi-tags"></i></button></RouterLink>
+            <RouterLink to="/interests" v-if="onExplore"><button class="buttonIcon"><i class="bi bi-compass"></i></button></RouterLink>
 
             <RouterLink to="/communities/create" v-if="onCommunities"><button class="buttonIcon"><i class="bi bi-plus-circle"></i></button></RouterLink>
 
@@ -71,6 +72,7 @@ export default {
             onCommunities: true,
             onMembers: true,
             onPosting: true,
+            onInterests: true,
         }
     },
     methods: {
@@ -86,7 +88,7 @@ export default {
             this.playAudioClick();
         },
         playAudioClick() {
-            const audio = new Audio('/public/asset/audio/click.mp3');
+            const audio = new Audio('/asset/audio/click.mp3');
             audio.play();
         },
     },
@@ -109,6 +111,7 @@ export default {
             this.onCommunities = ['/communities'].includes(newPath);
             this.onCommunity = ['/community/id'].includes(newPath);
             this.onMembers = ['/community/id/members'].includes(newPath);
+            this.onInterests = ['/interests'].includes(newPath);
         }
     },
     created() {
@@ -124,6 +127,7 @@ export default {
         this.onCommunities = ['/communities'].includes(this.$route.path);
         this.onCommunity = ['/community/id'].includes(this.$route.path);
         this.onMembers = ['/community/id/members'].includes(this.$route.path);
+        this.onInterests = ['/interests'].includes(this.$route.path);
     },
 }
 </script>

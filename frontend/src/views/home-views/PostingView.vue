@@ -162,7 +162,7 @@ export default {
             for (let i = 0; i < files.length && this.content.length < 10; i++) {
                 const file = files[i];
 
-                // ✅ Controlla che sia un'immagine
+                // Controlla che sia un'immagine
                 if (!file.type.startsWith("image/")) {
                     alert("Sono accettati solo file immagine.");
                     continue;
@@ -319,7 +319,7 @@ input[type='file'] {
 
 .tags>li {
     margin-top: 0.25rem;
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
     cursor: pointer;
     background-color: #171717;
     padding: 0.25rem 0.5rem;
